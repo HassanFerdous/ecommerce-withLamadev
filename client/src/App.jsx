@@ -5,7 +5,7 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Cart from './pages/Cart';
-import AddProduct from './pages/AddProduct';
+import AddProduct from './admin/AddProduct';
 import { useSelector } from 'react-redux';
 import Admin from './admin/Admin';
 import Clients from './admin/clients';
@@ -23,6 +23,7 @@ const App = () => {
 				<Route path='' element={<Dashboard />} />
 				<Route path='client' element={<Clients />} />
 				<Route path='products' element={<Products />} />
+				<Route path='products/add' element={<AddProduct />} />
 			</Route>
 			<Route path='/login-admin' element={!user?.isAdmin ? <LoginAdmin /> : <Navigate to='/admin' replace />} />
 			<Route path='/products/:cat' element={<ProductList />} />
@@ -31,7 +32,6 @@ const App = () => {
 			<Route path='/register' element={user ? <Navigate to='/' replace /> : <Register />} />
 			<Route path='/cart' element={<Cart />} />
 			<Route path='/account' element={user ? <Account /> : <Navigate to='/login' replace />} />
-			<Route path='/addProduct' element={<AddProduct />} />
 		</Routes>
 	);
 };

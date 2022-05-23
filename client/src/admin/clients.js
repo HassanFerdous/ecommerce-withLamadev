@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { userRequest } from '../requestMethod';
 
 function Clients() {
+	const [users, setUsers] = useState([]);
+
+	useEffect(() => {
+		async function getAllUsers() {
+			try {
+				let res = await userRequest.get('/users/all');
+				setUsers(res.data);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		getAllUsers();
+	}, []);
+
 	return (
 		<div className='content' style={{ minHeight: '100vh', background: '#9fcaff54' }}>
 			<div className='container-fluid pt-4 px-4'>
@@ -16,65 +31,28 @@ function Clients() {
 									<th scope='col'>#</th>
 									<th scope='col'>Name</th>
 									<th scope='col'>Email</th>
-									<th scope='col'>Status</th>
+									<th scope='col'>User type</th>
 									<th scope='col' style={{ width: '80px' }}>
 										Action
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td className='d-flex align-items-center justify-content-center'>
-										<img style={{ width: '40px', height: '40px' }} src='/images/profile.png' alt='' />
-									</td>
-									<td>Esther Howard</td>
-									<td>yourmail@gmail.com</td>
-									<td>active</td>
-									<td>
-										<Link className='btn btn-sm btn-primary btn-danger' to='#'>
-											Delete
-										</Link>
-									</td>
-								</tr>
-								<tr>
-									<td className='d-flex align-items-center justify-content-center'>
-										<img style={{ width: '40px', height: '40px' }} src='/images/profile.png' alt='' />
-									</td>
-									<td>Esther Howard</td>
-									<td>yourmail@gmail.com</td>
-									<td>active</td>
-									<td>
-										<Link className='btn btn-sm btn-primary btn-danger' to='#'>
-											Delete
-										</Link>
-									</td>
-								</tr>
-								<tr>
-									<td className='d-flex align-items-center justify-content-center'>
-										<img style={{ width: '40px', height: '40px' }} src='/images/profile.png' alt='' />
-									</td>
-									<td>Esther Howard</td>
-									<td>yourmail@gmail.com</td>
-									<td>active</td>
-									<td>
-										<Link className='btn btn-sm btn-primary btn-danger' to='#'>
-											Delete
-										</Link>
-									</td>
-								</tr>
-								<tr>
-									<td className='d-flex align-items-center justify-content-center'>
-										<img style={{ width: '40px', height: '40px' }} src='/images/profile.png' alt='' />
-									</td>
-									<td>Esther Howard</td>
-									<td>yourmail@gmail.com</td>
-									<td>active</td>
-									<td>
-										<Link className='btn btn-sm btn-primary btn-danger' to='#'>
-											Delete
-										</Link>
-									</td>
-								</tr>
+								{users.map((user) => (
+									<tr key={user._id}>
+										<td className='d-flex align-items-center justify-content-center'>
+											<img style={{ width: '40px', height: '40px' }} src='/images/profile.png' alt='' />
+										</td>
+										<td>{user.username}</td>
+										<td>{user.email}</td>
+										<td>{user.isAdmin ? 'admin' : 'normal'}</td>
+										<td>
+											<Link className='btn btn-sm btn-primary btn-danger' to='#'>
+												Delete
+											</Link>
+										</td>
+									</tr>
+								))}
 							</tbody>
 						</table>
 					</div>

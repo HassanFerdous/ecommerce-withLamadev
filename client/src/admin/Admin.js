@@ -3,13 +3,14 @@ import './bootstrap.min.css';
 import './style.css';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/slices/userSlice';
 
 export default function Admin() {
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
 	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user.currentUser);
 
 	function handleClick(e) {
 		let target = e.target;
@@ -42,7 +43,7 @@ export default function Admin() {
 							<div className='bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1' />
 						</div>
 						<div className='ms-3'>
-							<h6 className='mb-0'>Jhon Doe</h6>
+							<h6 className='mb-0'>{user.username}</h6>
 							<span>Admin</span>
 						</div>
 					</div>
@@ -196,7 +197,7 @@ export default function Admin() {
 								className='nav-link dropdown-toggle'
 								data-bs-toggle='dropdown'
 								onClick={() => setOpenProfileDropdown(!openProfileDropdown)}>
-								<span className='d-none d-lg-inline-flex'>John Doe</span>
+								<span className='d-none d-lg-inline-flex'>{user.username}</span>
 								<img
 									className='rounded-circle me-lg-2'
 									src={`/images/profile.png`}
