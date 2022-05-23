@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Container = styled.div`
-	height: 60px;
-	${mobile({ height: '50px' })}
+	// height: 60px;
+	${mobile({ height: '50px' })};
+	border-bottom: 1px solid #ddd;
 `;
 
 const Wrapper = styled.div`
@@ -70,7 +71,7 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
 	const { quantity } = useSelector((state) => state.cart);
-
+	const user = useSelector((state) => state.user.currentUser);
 	return (
 		<Container>
 			<Wrapper>
@@ -89,12 +90,20 @@ const Navbar = () => {
 					</Logo>
 				</Center>
 				<Right>
-					<MenuItem>
-						<Link to='/register'>REGISTER</Link>
-					</MenuItem>
-					<MenuItem>
-						<Link to='/login'>SIGN IN</Link>
-					</MenuItem>
+					{user ? (
+						<MenuItem>
+							<Link to='/account'>Account</Link>
+						</MenuItem>
+					) : (
+						<>
+							<MenuItem>
+								<Link to='/register'>REGISTER</Link>
+							</MenuItem>
+							<MenuItem>
+								<Link to='/login'>SIGN IN</Link>
+							</MenuItem>
+						</>
+					)}
 					<MenuItem>
 						<Link to='/cart'>
 							<Badge badgeContent={quantity} color='primary'>

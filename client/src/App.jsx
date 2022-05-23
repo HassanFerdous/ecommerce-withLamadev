@@ -12,6 +12,7 @@ import Clients from './admin/clients';
 import Dashboard from './admin/dashboard';
 import Products from './admin/products';
 import LoginAdmin from './admin/loginAdmin';
+import Account from './pages/Account';
 
 const App = () => {
 	const user = useSelector((state) => state.user.currentUser);
@@ -29,6 +30,7 @@ const App = () => {
 			<Route path='/login' element={user ? <Navigate to='/' replace /> : <Login />} />
 			<Route path='/register' element={user ? <Navigate to='/' replace /> : <Register />} />
 			<Route path='/cart' element={<Cart />} />
+			<Route path='/account' element={user ? <Account /> : <Navigate to='/login' replace />} />
 			<Route path='/addProduct' element={<AddProduct />} />
 		</Routes>
 	);

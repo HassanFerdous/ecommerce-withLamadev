@@ -73,8 +73,8 @@ const Login = () => {
 			<Wrapper>
 				<Title>SIGN IN</Title>
 				<Form onSubmit={handleSubmit}>
-					<Input placeholder='username' onChange={(e) => setUsername(e.target.value)} />
-					<Input placeholder='password' onChange={(e) => setPassword(e.target.value)} />
+					<Input placeholder='username' type='text' onChange={(e) => setUsername(e.target.value)} />
+					<Input placeholder='password' type='password' onChange={(e) => setPassword(e.target.value)} />
 					<Button type='submit'>LOGIN</Button>
 					<Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
 					<Link>CREATE A NEW ACCOUNT</Link>

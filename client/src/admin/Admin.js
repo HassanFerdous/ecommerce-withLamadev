@@ -19,7 +19,7 @@ export default function Admin() {
 		target.classList.add('active');
 	}
 
-	const loginOutAdmin = () => {
+	const userLogout = () => {
 		dispatch(logout());
 	};
 
@@ -215,7 +215,7 @@ export default function Admin() {
 								<Link to='#' className='dropdown-item'>
 									Settings
 								</Link>
-								<Link to='#' className='dropdown-item' onClick={loginOutAdmin}>
+								<Link to='#' className='dropdown-item' onClick={userLogout}>
 									Log Out
 								</Link>
 							</div>
