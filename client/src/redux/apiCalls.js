@@ -1,4 +1,6 @@
-import { publicRequest } from '../requestMethod';
+import { publicRequest, userRequest } from '../requestMethod';
+import { getProductsFailure, getProductsStart, getProductsSuccess } from './slices/productSlice';
+import { getClientsStart, getClientsSuccess, getClientsFailure } from './slices/clientSlice';
 import {
 	loginFailure,
 	loginStart,
@@ -8,6 +10,7 @@ import {
 	registerFailure,
 } from './slices/userSlice';
 
+//login
 export const login = async (dispatch, user) => {
 	dispatch(loginStart());
 	try {
@@ -19,6 +22,7 @@ export const login = async (dispatch, user) => {
 	}
 };
 
+//register
 export const register = async (dispatch, userData) => {
 	dispatch(registerStart());
 	try {
@@ -27,5 +31,29 @@ export const register = async (dispatch, userData) => {
 	} catch (error) {
 		dispatch(registerFailure());
 		console.log(error);
+	}
+};
+
+//fetch-products
+export const getProducts = async (dispatch) => {
+	dispatch(getProductsStart());
+	try {
+		let res = await userRequest.get('/products/');
+		dispatch(getProductsSuccess(res.data));
+	} catch (error) {
+		console.log(error);
+		dispatch(getProductsFailure());
+	}
+};
+
+//fetch-clients
+export const getClients = async (dispatch) => {
+	dispatch(getClientsStart());
+	try {
+		let res = await userRequest.get('/users/all');
+		dispatch(getClientsSuccess(res.data));
+	} catch (error) {
+		console.log(error);
+		dispatch(getClientsFailure());
 	}
 };

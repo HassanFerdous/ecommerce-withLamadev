@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom';
-import './bootstrap.min.css';
-import './style.css';
+import './style/bootstrap.min.css';
+import './style/style.css';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/slices/userSlice';
+// import { getProducts } from '../redux/apiCalls';
 
 export default function Admin() {
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user.currentUser);
+
+	// useEffect(() => {
+	// 	getProducts(dispatch);
+	// }, [dispatch]);
 
 	function handleClick(e) {
 		let target = e.target;

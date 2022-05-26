@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './bootstrap.min.css';
-import './style.css';
+import './style/bootstrap.min.css';
+import './style/style.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/apiCalls';

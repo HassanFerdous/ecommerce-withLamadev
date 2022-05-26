@@ -5,12 +5,13 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Cart from './pages/Cart';
-import AddProduct from './admin/AddProduct';
+import AddProduct from './admin/pages/AddProduct';
+import EditProduct from './admin/pages/EditProduct';
 import { useSelector } from 'react-redux';
 import Admin from './admin/Admin';
-import Clients from './admin/clients';
+import Clients from './admin/pages/clients';
 import Dashboard from './admin/dashboard';
-import Products from './admin/products';
+import Products from './admin/pages/products';
 import LoginAdmin from './admin/loginAdmin';
 import Account from './pages/Account';
 
@@ -24,6 +25,7 @@ const App = () => {
 				<Route path='client' element={<Clients />} />
 				<Route path='products' element={<Products />} />
 				<Route path='products/add' element={<AddProduct />} />
+				<Route path='products/:id' element={<EditProduct />} />
 			</Route>
 			<Route path='/login-admin' element={!user?.isAdmin ? <LoginAdmin /> : <Navigate to='/admin' replace />} />
 			<Route path='/products/:cat' element={<ProductList />} />
