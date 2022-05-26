@@ -282,3 +282,37 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.uploaded-file  {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.file-group {
+    border-radius: 5px;
+    border: 
+    1px solid #ced4da;
+}
+
+
+.uploaded-file img {
+    width: 40px;
+    height: 40px;
+}
+
+.uploaded-file button {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background-color: white;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    border-radius: 50%;
+}
