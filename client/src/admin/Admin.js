@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './style/bootstrap.min.css';
 import './style/style.css';
 import { Outlet } from 'react-router-dom';
@@ -12,10 +12,7 @@ export default function Admin() {
 	const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user.currentUser);
-
-	// useEffect(() => {
-	// 	getProducts(dispatch);
-	// }, [dispatch]);
+	let navigate = useNavigate();
 
 	function handleClick(e) {
 		let target = e.target;
@@ -25,8 +22,10 @@ export default function Admin() {
 		target.classList.add('active');
 	}
 
-	const userLogout = () => {
+	const userLogout = (e) => {
+		e.preventDefault();
 		dispatch(logout());
+		navigate('/', { replace: true });
 	};
 
 	return (

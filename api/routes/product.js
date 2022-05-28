@@ -56,16 +56,19 @@ router.get('/:id', async (req, res) => {
 });
 
 //UPDATE PRODUCT
-router.put('/:id', verifyTokenAndAdmin, upload.single('product-img'), async (req, res) => {
+router.put('/:id', verifyTokenAndAdmin, upload.single('img'), async (req, res) => {
+	let data = req.body;
+	req.file && (data = { ...req.body, img: req.file.filename });
 	try {
 		let product = await ProductModel.findById(req.params.id);
-		let updatedProduct = await ProductModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+		let updatedProduct = await ProductModel.findByIdAndUpdate(req.params.id, { $set: data }, { new: true });
 
-		//delete uploaded img
-		fs.unlink(path.join(__dirname, `../../client/public/images/${product.img}`), (err) => {
-			if (err) console.log(`${err.path} is not found!!`);
-		});
-
+		// delete uploaded img
+		if (req.file) {
+			fs.unlink(path.join(__dirname, `../../client/public/images/${product.img}`), (err) => {
+				if (err) console.log(`${err.path} is not found!!`);
+			});
+		}
 		res.status(200).json(updatedProduct);
 	} catch (error) {
 		if (req.file) {

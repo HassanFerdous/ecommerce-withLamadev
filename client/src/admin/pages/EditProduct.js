@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../style/bootstrap.min.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import { getProducts } from '../../redux/apiCalls';
+import { userRequest } from '../../requestMethod';
 
 export default function EditProduct() {
-	const [newFile, setNewFile] = useState(false);
-	const [previewFileUri, setPreviewFileUri] = useState(null);
 	const [productData, setProductData] = useState({
 		title: '',
 		description: '',
@@ -17,8 +16,12 @@ export default function EditProduct() {
 		color: '',
 		size: '',
 	});
+	const [newFile, setNewFile] = useState(false);
+	const [previewFileUri, setPreviewFileUri] = useState(null);
+	let navigate = useNavigate();
 	const dispatch = useDispatch();
 	const params = useParams();
+
 	let product = useSelector((state) => state.productReducer.products.find((p) => p._id === params.id));
 
 	useEffect(() => {
@@ -51,7 +54,23 @@ export default function EditProduct() {
 
 	const handleProductSubmit = (e) => {
 		e.preventDefault();
-		console.log(productData);
+		let formData = new FormData();
+
+		for (let [key, value] of Object.entries(productData)) {
+			formData.append(key, value);
+		}
+
+		let updateProduct = async () => {
+			try {
+				await userRequest.put(`/products/${params.id}`, formData);
+				getProducts(dispatch);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		updateProduct();
+		navigate('/admin/products');
 	};
 
 	return (
@@ -133,6 +152,7 @@ export default function EditProduct() {
 							onChange={handleChange}
 							name='size'
 							placeholder='Sizes'
+							value={product.size}
 						/>
 
 						<input
