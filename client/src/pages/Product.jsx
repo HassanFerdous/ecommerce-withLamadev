@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { publicRequest } from '../requestMethod';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '../redux/slices/cartSlice';
+import { addItemToCart } from '../redux/slices/cartSlice';
 
 const Container = styled.div``;
 
@@ -139,8 +139,7 @@ const Product = () => {
 
 	const handleClick = (e) => {
 		e.preventDefault();
-		console.log(product.price * quantity);
-		dispatch(addProduct({ ...product, quantity }));
+		dispatch(addItemToCart({ ...product, quantity }));
 	};
 
 	//get product by id

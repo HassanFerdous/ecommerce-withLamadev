@@ -70,7 +70,11 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
-	const { quantity } = useSelector((state) => state.cart);
+	const quantity = useSelector((state) =>
+		state.cart.product.reduce((acc, curr) => {
+			return acc + curr.quantity;
+		}, 0)
+	);
 	const user = useSelector((state) => state.user.currentUser);
 	return (
 		<Container>

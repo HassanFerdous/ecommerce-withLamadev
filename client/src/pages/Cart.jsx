@@ -1,9 +1,10 @@
 import { Add, Remove } from '@material-ui/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import { decreaseQuantity, increaseQuantity } from '../redux/slices/cartSlice';
 import { mobile } from '../responsive';
 
 const Container = styled.div``;
@@ -154,6 +155,13 @@ const Button = styled.button`
 
 const Cart = () => {
 	const cart = useSelector((state) => state.cart);
+	const dispatch = useDispatch();
+
+	let total = cart.product?.length
+		? cart.product.reduce((acc, curr) => {
+				return acc + curr.price * curr.quantity;
+		  }, 0)
+		: 0;
 
 	return (
 		<Container>
@@ -164,43 +172,45 @@ const Cart = () => {
 				<Top>
 					<TopButton>CONTINUE SHOPPING</TopButton>
 					<TopTexts>
-						<TopText>Shopping Bag({cart.quantity})</TopText>
+						<TopText>Shopping Bag({cart.product.length})</TopText>
 						<TopText>Your Wishlist (0)</TopText>
 					</TopTexts>
 					<TopButton type='filled'>CHECKOUT NOW</TopButton>
 				</Top>
 				<Bottom>
 					<Info>
-						{cart.product.map((product) => (
-							<>
-								<Product>
-									<ProductDetail>
-										<Image src={`/images/${product.img}`} />
-										<Details>
-											<ProductName>
-												<b>Product:</b> {product.title}
-											</ProductName>
-											<ProductId>
-												<b>ID:</b> {product._id}
-											</ProductId>
-											<ProductColor color='black' />
-											<ProductSize>
-												<b>Size:</b> {product?.size}
-											</ProductSize>
-										</Details>
-									</ProductDetail>
-									<PriceDetail>
-										<ProductAmountContainer>
-											<Add />
-											<ProductAmount>{product.quantity}</ProductAmount>
-											<Remove />
-										</ProductAmountContainer>
-										<ProductPrice>$ {product.price * product.quantity}</ProductPrice>
-									</PriceDetail>
-								</Product>
-								<Hr />
-							</>
-						))}
+						{cart.product.length
+							? cart.product.map((product) => (
+									<div key={product._id}>
+										<Product>
+											<ProductDetail>
+												<Image src={`/images/${product.img}`} />
+												<Details>
+													<ProductName>
+														<b>Product:</b> {product.title}
+													</ProductName>
+													<ProductId>
+														<b>ID:</b> {product._id}
+													</ProductId>
+													<ProductColor color='black' />
+													<ProductSize>
+														<b>Size:</b> {product?.size}
+													</ProductSize>
+												</Details>
+											</ProductDetail>
+											<PriceDetail>
+												<ProductAmountContainer>
+													<Add onClick={() => dispatch(increaseQuantity(product._id))} />
+													<ProductAmount>{product.quantity}</ProductAmount>
+													<Remove onClick={() => dispatch(decreaseQuantity(product._id))} />
+												</ProductAmountContainer>
+												<ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+											</PriceDetail>
+										</Product>
+										<Hr />
+									</div>
+							  ))
+							: 'cart is empty'}
 					</Info>
 					<Summary>
 						<SummaryTitle>ORDER SUMMARY</SummaryTitle>
@@ -218,7 +228,7 @@ const Cart = () => {
 						</SummaryItem>
 						<SummaryItem type='total'>
 							<SummaryItemText>Total</SummaryItemText>
-							<SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+							<SummaryItemPrice>$ {total}</SummaryItemPrice>
 						</SummaryItem>
 						<Button>CHECKOUT NOW</Button>
 					</Summary>
